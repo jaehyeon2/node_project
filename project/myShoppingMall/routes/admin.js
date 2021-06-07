@@ -9,11 +9,15 @@ const {isLoggedIn, isNotLoggedIn, isAdmin}=require('./middlewares');
 const router=express.Router();
 
 router.get('/', isLoggedIn, isAdmin, (req, res)=>{
-	res.render('admin', {title:'myShoppingMall-Admin'});
+	res.render('/adminpage/admin', {title:'myShoppingMall-Admin'});
 });
 
 router.get('/product', isLoggedIn, isAdmin, (req, res)=>{
-	res.render('adminproduct', {title:'상품등록 - myShoppingMall-Admin'})
+	res.render('/adminpage/admin_product', {title:'상품등록 - myShoppingMall-Admin'})
+});
+
+router.get('/control', isLoggedIn, isadmin, (req, res)=>{
+	res.render('/adminpage/admin_product_control', {title:'상품 관리 - myShoppingMall-Admin'});
 })
 
 try{

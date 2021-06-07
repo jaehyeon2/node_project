@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Todo List</title>
+		<style src="../public/main.css"></style>
+	</head>
+	<body>
+		<h1>
+			TODO LIST!
+		</h1>
+		<div>
+			<form id="list-form">
+				<input id="content" type="text" placeholder="할 일을 입력하세요">
+				<button type="submit" id="addList">추가</button>
+			</form>
+			
+		</div>
+		<table id="todo-list">
+			<tbody>
+				{% for list in lists %}
+				<tr>
+					<td>{{list.content}}</td>
+					<td>{{list.date}}</td>
+					<td>{% if list.done %}
+						완료
+						{% else %}
+						미완료
+						{% endif %}</td>
+					<td><button id='edit'>수정</button></td>
+					<td><button id='remove'>삭제</button></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+		<script src="main.js"></script>
+	</body>
+</html>

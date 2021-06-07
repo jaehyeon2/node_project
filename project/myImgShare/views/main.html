@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="timeline">
+	<div class="images">
+		<form id="hashtag-form" action="/hashtag">
+			<input type="text" name="hashtag" placeholder="search hashtag">
+			<button class="btn">
+				검색
+			</button>
+		</form>
+		{% for image in images %}
+		<div class="image" location.href="/image/{{image.id}}">
+			<input type="hidden" value="{{image.User.id}}" class="image-user-id">
+			<input type="hidden" value="{{image.id}}" class="image-id">
+			<div class="image-title">
+				{{image.title}}
+			</div>
+			{% if image.img %}
+			<div class="image-img">
+				<img src="img/{{image.img}}" alt="썸네일">
+			</div>
+			<div>
+				<a href="/image/{{image.id}}" class="enter btn">입장</a>
+			</div>
+			{% endif %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}

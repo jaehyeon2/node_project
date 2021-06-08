@@ -18,7 +18,17 @@ router.get('/product', isLoggedIn, isAdmin, (req, res)=>{
 
 router.get('/control', isLoggedIn, isadmin, (req, res)=>{
 	res.render('/adminpage/admin_product_control', {title:'상품 관리 - myShoppingMall-Admin'});
-})
+});
+
+router.get('/update/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
+	try{
+		const product=await Product.findOne({where:{id:req.params.id}});
+		res.render('/adminpage/admin_product_control', {title:`${product.name} - myShoppingMall`, product});
+	}catch(error){
+		console.error(error);
+		next(error);
+	}
+});
 
 try{
 	fs.readdirSync('uploads');
@@ -40,7 +50,7 @@ const upload=multer({
 	limits:{fileSize:5*1024*1024},
 });
 
-router.post('/product', isLoggedIn, isAdmin, async(req, res, next)=>{
+router.post('/product', isLoggedIn, isAdmin, upload.single('img'), async(req, res, next)=>{
 	try{
 		await Product.create({
 			name:req.body.name,
@@ -49,6 +59,17 @@ router.post('/product', isLoggedIn, isAdmin, async(req, res, next)=>{
 			content:req.body.content,
 			hashtag:req.body.hashtag,
 		});
+		const hashtags=req.body.hashtag.match(/#[^\s#]*/g);
+		if(hashtags){
+			const result=await Promise.all(
+				hashtags.map(tag=>{
+					return Hashtag.findOrCreate({
+						where:{title:tag.slice(1).toLowerCase()},
+					})
+				}),
+			);
+			await image.addHashtags(result.map(r=>r[0]));
+		}
 		res.redirect('/');
 	}catch(error){
 		console.error(error);

@@ -22,6 +22,10 @@ module.extends=class Product extends Sequelize.Model{
 			remaincount:{
 				type:Sequelize.INTEGER,
 				allowNull:false,
+			},
+			hashtag:{
+				type:Sequelize.STRING(500),
+				allowNull:true,
 			}
 		},{
 			sequelize,

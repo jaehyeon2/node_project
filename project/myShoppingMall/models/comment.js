@@ -1,6 +1,6 @@
 const Sequelize=require('sequelize');
 //댓글 모델
-module.extends=class buy extends Sequelize.Model{
+module.exports=class buy extends Sequelize.Model{
 	static init(sequelize){
 		return super.init({
 			rating:{

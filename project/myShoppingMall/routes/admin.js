@@ -16,7 +16,7 @@ router.get('/product', isLoggedIn, isAdmin, (req, res)=>{
 	res.render('/adminpage/admin_product', {title:'상품등록 - myShoppingMall-Admin'})
 });
 
-router.get('/control', isLoggedIn, isadmin, (req, res)=>{
+router.get('/control', isLoggedIn, isAdmin, (req, res)=>{
 	res.render('/adminpage/admin_product_control', {title:'상품 관리 - myShoppingMall-Admin'});
 });
 

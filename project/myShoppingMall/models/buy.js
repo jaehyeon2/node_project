@@ -1,4 +1,4 @@
-const sequelize=require('sequelize');
+const Sequelize=require('sequelize');
 //구매 목록
 module.exports=class Buy extends Sequelize.Model{
 	static init(sequelize){

@@ -1,4 +1,4 @@
-const sequelize=require('sequelize');
+const Sequelize=require('sequelize');
 //유저 모델
 module.exports=class User extends Sequelize.Model{
 	static init(sequelize){

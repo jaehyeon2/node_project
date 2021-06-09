@@ -1,4 +1,4 @@
-const sequelzie=require('sequelize');
+const Sequelize=require('sequelize');
 //상품 모델
 module.extends=class Product extends Sequelize.Model{
 	static init(sequelize){

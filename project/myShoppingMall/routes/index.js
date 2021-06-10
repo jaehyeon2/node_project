@@ -47,6 +47,8 @@ router.post('/basket', isLoggedIn, async(req, res, next)=>{
 	}
 });
 
-router.post('/buy', isLoggedIn, async(req, res, next)=>{
+/*router.post('/buy', isLoggedIn, async(req, res, next)=>{
 	
-});
+});*/
+
+module.exports = router;

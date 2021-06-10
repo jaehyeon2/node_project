@@ -106,3 +106,4 @@ router.post('/update/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 	}
 });
 
+module.exports = router;

@@ -14,10 +14,23 @@ exports.isNotLoggedIn=(req, res, next)=>{
 	}
 };
 
-exports.isAdmin=(req, res, next)=>{
+/*exports.isAdmin=(req, res, next)=>{
 	if(req.user.auth==="admin"){
 		next()
 	}else{
 		res.redirect('/?authError=권한이 없습니다!');
 	}
+};*/
+
+ 
+exports.isAdmin = (req, res, next)=>{
+    if (!req.isAuthenticated()){
+        res.redirect('/accounts/login');
+    }else{
+        if(req.user.username!=='admin'){
+            res.redirect('/?authError=권한이 없습니다.');
+        }else{
+            return next();
+        }
+    }
 };

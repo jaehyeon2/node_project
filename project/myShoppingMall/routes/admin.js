@@ -4,23 +4,23 @@ const path=require('path');
 const fs=require('fs');
 
 const {Basket, Buy, Comment, Hashtag, Product, User}=require('../models');
-const {isLoggedIn, isNotLoggedIn, isAdmin}=require('./middlewares');
+const {isLoggedIn, isNotLoggedIn}=require('./middlewares');
 
 const router=express.Router();
 
-router.get('/', isLoggedIn, isAdmin, (req, res)=>{
+router.get('/', isLoggedIn, (req, res)=>{
 	res.render('/adminpage/admin', {title:'myShoppingMall-Admin'});
 });
 
-router.get('/product', isLoggedIn, isAdmin, (req, res)=>{
+router.get('/product', isLoggedIn, (req, res)=>{
 	res.render('/adminpage/admin_product', {title:'상품등록 - myShoppingMall-Admin'})
 });
 
-router.get('/control', isLoggedIn, isAdmin, (req, res)=>{
+router.get('/control', isLoggedIn, (req, res)=>{
 	res.render('/adminpage/admin_product_control', {title:'상품 관리 - myShoppingMall-Admin'});
 });
 
-router.get('/update/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
+router.get('/update/:id', isLoggedIn, async(req, res, next)=>{
 	try{
 		const product=await Product.findOne({where:{id:req.params.id}});
 		res.render('/adminpage/admin_product_control', {title:`${product.name} - myShoppingMall`, product});
@@ -50,7 +50,7 @@ const upload=multer({
 	limits:{fileSize:5*1024*1024},
 });
 
-router.post('/product', isLoggedIn, isAdmin, upload.single('img'), async(req, res, next)=>{
+router.post('/product', isLoggedIn, upload.single('img'), async(req, res, next)=>{
 	try{
 		await Product.create({
 			name:req.body.name,
@@ -77,7 +77,7 @@ router.post('/product', isLoggedIn, isAdmin, upload.single('img'), async(req, re
 	}
 });
 
-router.post('/delete/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
+router.post('/delete/:id', isLoggedIn, async(req, res, next)=>{
 	try{
 		const result=await Product.destroy({where:{id:req.params.id}});
 		res.redirect('/');
@@ -87,7 +87,7 @@ router.post('/delete/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 	}
 });
 
-router.post('/update/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
+router.post('/update/:id', isLoggedIn, async(req, res, next)=>{
 	try{
 		const nowcount=await Product.findOne({
 			attributes:['remaincount'],

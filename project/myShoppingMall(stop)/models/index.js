@@ -1,14 +1,13 @@
 const Sequelize=require('sequelize');
+const env=process.env.NODE_ENV||'development';
+const config=require('../config/config')[env];
+
 const User=require('./user');
 const Product=require('./product');
 const Comment=require('./comment');
 const Basket=require('./basket');
 const Hashtag=require('./hashtag');
 const Buy=require('./buy');
-
-
-const env=process.env.NODE_ENV||"development";
-const config=require('../config/config')[env];
 
 const db={};
 const sequelize=new Sequelize(

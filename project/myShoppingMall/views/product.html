@@ -7,7 +7,7 @@
 		{{product.name}}
 	</div>
 	<div class="product-img">
-		<img src="img/{{product.img}}" alt="buy">
+		<img id="product-img" src="/img/{{product.img}}", alt="{{product.name}}">
 	</div>
 	<div class="product-price">
 		{{product.price}}원
@@ -16,8 +16,13 @@
 		{{product.remaincount}}개 남음
 	</div>
 	<div>
-		<input type="number" name="buycount" placeholder="구매 수량" min="1" value="1">
-		<a href="" class="basket btn">장바구니 담기</a><a href="" class="direct-buy btn">바로 구매</a>
+		
+		<form id="product-form" action="/basket" method="post">
+			<input type="hidden" name="name", value="{{product.name}}">
+			<input type="number" name="count" placeholder="구매 수량" min="1" value="1">
+			<button id="go-basket-btn" type="submit" class="btn">장바구니 담기</button>
+		</form>
+		<a href="" class="direct-buy btn">바로 구매</a>
 	</div>
 </div>
 <hr>
@@ -31,4 +36,22 @@
 		<span class="comment-content">{{comment.content}}</span>
 	</div>
 </div>
+<script>
+	 function goBasket(content, cate, index = 0) {
+		 // name이 paging인 태그
+		 var f = document.paging;
+		 
+		 // form 태그의 하위 태그 값 매개 변수로 대입
+		 f.content.value = content;
+		 f.cate.value = cate;
+		 f.index.value = index;
+		 
+		 // input태그의 값들을 전송하는 주소
+		 f.action = "./content.do"
+		 
+		 // 전송 방식 : post
+		 f.method = "post"
+		 f.submit();
+	 };
+</script>
 {% endblock %}

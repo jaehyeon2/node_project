@@ -8,12 +8,28 @@ const {isLoggedIn, isNotLoggedIn, isAdmin}=require('./middlewares');
 
 const router=express.Router();
 
-router.get('/', isLoggedIn, isAdmin, (req, res)=>{
-	res.render('adminpage/admin', {title:'myShoppingMall-Admin'});
+router.get('/', isLoggedIn, isAdmin, async (req, res, next)=>{
+	try{
+		const products=await Product.findAll({});
+		res.render('adminpage/admin', {title:'myShoppingMall-Admin', products});
+	}catch(error){
+		console.error(error);
+		next(error);
+	}
 });
 
 router.get('/product', isLoggedIn, isAdmin, (req, res)=>{
 	res.render('adminpage/admin_product', {title:'상품등록 - myShoppingMall-Admin'})
+});
+
+router.get('/product/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
+	try{
+		const product=await Product.findOne({where:{id:req.params.id}});
+		res.render('adminpage/admin_product_info', {title:`${product.name} - myShoppingMall-Admin`, product});
+	}catch(error){
+		console.error(error);
+		next(error);
+	}
 });
 
 router.get('/control', isLoggedIn, isAdmin, (req, res)=>{

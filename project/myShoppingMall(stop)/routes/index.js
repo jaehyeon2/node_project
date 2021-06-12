@@ -31,7 +31,7 @@ router.get('/join', isNotLoggedIn, (req, res)=>{
 router.get('/product/:id', isLoggedIn, async(req, res, next)=>{
 	try{
 		const product=await Product.findOne({where:{id:req.params.id}});
-		res.render('production', {title:`${product.name} - myShoppingMall`, product});
+		res.render('product', {title:`${product.name} - myShoppingMall`, product});
 	}catch(error){
 		console.error(error);
 		next(error);
@@ -44,6 +44,17 @@ router.post('/basket', isLoggedIn, async(req, res, next)=>{
 			name:req.body.name,
 			count:req.body.count,
 			UserId:req.user.id,
+		});
+		const nowcount=await Product.findOne({
+			attributes:['remaincount'],
+		},{
+			where:{id:req.params.id},
+		});
+		nowcount--;
+		await Product.update({
+			remaincount:nowcount,
+		},{
+			where:{id:req.params.id},
 		});
 	}catch(error){
 		console.error(error);

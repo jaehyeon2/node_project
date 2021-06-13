@@ -106,13 +106,16 @@ router.post('/delete/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 
 router.post('/update/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 	try{
+		console.log('test');
 		const nowcount=await Product.findOne({
 			attributes:['remaincount'],
 		},{
 			where:{id:req.params.id},
 		});
+		console.log('nowcount', nowcount);
+		nowcount=nowcount+req.body.count;
 		await Product.update({
-			remaincount:nowcount+req.body.count,
+			remaincount:nowcount,
 		},{
 			where:{id:req.params.id},
 		});
@@ -137,6 +140,33 @@ router.post('/add/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 		});
 		res.redirect('/admin');
 	}catch(error){
+		console.error(error);
+		next(error);
+	}
+});
+
+router.get('/hashtag', isAdmin, async(req, res, next)=>{
+	const query=req.query.hashtag;
+	if(!query){
+		return res.redirect('/');
+	}
+	try{
+		const hashtag=await Hashtag.findOne({where:{title:query}});
+		let products=[];
+		if(hashtag){
+			products=await hashtag.getProducts({});
+			console.log('products', products);
+		}
+		if(!products){
+			console.log('nothing');
+			const message='검색 결과가 없습니다.'
+			res.render('nothing', message);
+		}
+		return res.render('main',{
+			title:`${query}-myShoppingmall`,
+			products:products,
+		});
+	} catch (error){
 		console.error(error);
 		next(error);
 	}

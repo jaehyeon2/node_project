@@ -69,25 +69,25 @@ router.get('/hashtag', async(req, res, next)=>{
 	}
 	try{
 		const hashtag=await Hashtag.findOne({where:{title:query}});
-		let images=[];
+		let products=[];
 		if(hashtag){
-			images=await hashtag.getImages({});
-			console.log('images', images);
+			products=await hashtag.getProducts({});
+			console.log('products', products);
 		}
-		if(!images){
+		if(!products){
 			console.log('nothing');
 			const message='검색 결과가 없습니다.'
 			res.render('nothing', message);
 		}
 		return res.render('main',{
-			title:`${query}-myImageShare`,
-			images:images,
+			title:`${query}-myShoppingmall`,
+			products:products,
 		});
 	} catch (error){
 		console.error(error);
 		next(error);
 	}
-})
+});
 
 /*router.post('/buy', isLoggedIn, async(req, res, next)=>{
 	

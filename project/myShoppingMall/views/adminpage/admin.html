@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="products">
-	<form id="hashtag-form" action="/hashtag">
+	<form id="hashtag-form" action="/admin/hashtag">
 		<input type="text" name="hashtag" placeholder="search">
 		<button class="btn">검색</button>
 	</form>
@@ -25,7 +25,6 @@
 		</tbody>
 	</table>
 	<a href="/admin/product" class="btn">상품 등록</a>
-	<a href="/admin/control" class="btn">상품 관리</a>
 	<!--상품 조회 페이지 추가 예정-->
 </div>
 

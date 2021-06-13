@@ -62,6 +62,33 @@ router.post('/basket', isLoggedIn, async(req, res, next)=>{
 	}
 });
 
+router.get('/hashtag', async(req, res, next)=>{
+	const query=req.query.hashtag;
+	if(!query){
+		return res.redirect('/');
+	}
+	try{
+		const hashtag=await Hashtag.findOne({where:{title:query}});
+		let images=[];
+		if(hashtag){
+			images=await hashtag.getImages({});
+			console.log('images', images);
+		}
+		if(!images){
+			console.log('nothing');
+			const message='검색 결과가 없습니다.'
+			res.render('nothing', message);
+		}
+		return res.render('main',{
+			title:`${query}-myImageShare`,
+			images:images,
+		});
+	} catch (error){
+		console.error(error);
+		next(error);
+	}
+})
+
 /*router.post('/buy', isLoggedIn, async(req, res, next)=>{
 	
 });*/

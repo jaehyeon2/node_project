@@ -87,7 +87,7 @@ router.post('/product', isLoggedIn, isAdmin, upload.single('img'), async(req, re
 			);
 			await product.addHashtags(result.map(r=>r[0]));
 		}
-		res.redirect('/');
+		res.redirect('/admin');
 	}catch(error){
 		console.error(error);
 		next(error);
@@ -97,7 +97,7 @@ router.post('/product', isLoggedIn, isAdmin, upload.single('img'), async(req, re
 router.post('/delete/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 	try{
 		const result=await Product.destroy({where:{id:req.params.id}});
-		res.redirect('/');
+		res.redirect('/admin');
 	}catch(error){
 		console.error(error);
 		next(error);
@@ -116,7 +116,26 @@ router.post('/update/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 		},{
 			where:{id:req.params.id},
 		});
-		res.redirect('/');
+		res.redirect('/admin');
+	}catch(error){
+		console.error(error);
+		next(error);
+	}
+});
+
+router.post('/add/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
+	try{
+		const nowcount=await Product.findOne({
+			attributes:['remaincount'],
+		},{
+			where:{id:req.params.id},
+		});
+		await Product.update({
+			remaincount:nowcount+req.body.count,
+		},{
+			where:{id:req.params.id},
+		});
+		res.redirect('/admin');
 	}catch(error){
 		console.error(error);
 		next(error);

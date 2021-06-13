@@ -148,7 +148,7 @@ router.post('/add/:id', isLoggedIn, isAdmin, async(req, res, next)=>{
 router.get('/hashtag', isAdmin, async(req, res, next)=>{
 	const query=req.query.hashtag;
 	if(!query){
-		return res.redirect('/');
+		return res.redirect('/admin');
 	}
 	try{
 		const hashtag=await Hashtag.findOne({where:{title:query}});
@@ -162,7 +162,7 @@ router.get('/hashtag', isAdmin, async(req, res, next)=>{
 			const message='검색 결과가 없습니다.'
 			res.render('nothing', message);
 		}
-		return res.render('main',{
+		return res.render('adminpage/admin',{
 			title:`${query}-myShoppingmall`,
 			products:products,
 		});

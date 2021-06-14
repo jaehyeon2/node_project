@@ -49,6 +49,8 @@ router.get('/basket', isLoggedIn, async(req, res, next)=>{
 	}
 });
 
+//show basket page
+//basket 정보를 가지고 products의 정보를 가져올 수 있게 수정 예정
 router.post('/basket', isLoggedIn, async(req, res, next)=>{
 	try{
 		await Basket.create({

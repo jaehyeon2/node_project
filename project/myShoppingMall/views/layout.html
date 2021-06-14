@@ -15,6 +15,11 @@
                     <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
                     <input id="my-id" type="hidden" value="{{user.id}}" />
                     <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+					{% if user.auth==="admin" %}
+					<a id="admin" href="/admin" class="btn">관리자 페이지</a>
+					{% else %}
+					<a id="basket" href="/basket" class="btn">장바구니</a>
+					{% endif %}
                     {% else %}
                     <form id="login-form" action="/auth/login" method="post">
                         <div class="input-group">

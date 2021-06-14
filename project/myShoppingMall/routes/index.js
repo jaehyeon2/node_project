@@ -38,6 +38,17 @@ router.get('/product/:id', isLoggedIn, async(req, res, next)=>{
 	}
 });
 
+router.get('/basket', isLoggedIn, async(req, res, next)=>{
+	try{
+		const products=await Basket.findAll({}, {where:{Userid:req.user.id}});
+		res.render('basket', {title:`${req.user.nick} - myShoppingmall`, products});
+	}
+	catch(error){
+		console.error(error);
+		next(error);
+	}
+});
+
 router.post('/basket', isLoggedIn, async(req, res, next)=>{
 	try{
 		await Basket.create({
